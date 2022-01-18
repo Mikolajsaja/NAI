@@ -110,21 +110,12 @@ int main(int argc, char** argv){
     double acceleration = 0.1;
 
     std::vector<std::pair<point2d, double>> obstacles = {};
-//    for (double x = 4.6; x < 5.7; x += 0.01) {
-//        for (double y = -3.6; y < 3.7; y += 0.01) {
-//            obstacles.push_back({{x,y},(argc>1)?std::stod(argv[1]):1.0});
-//        }
-//    }
 
     obstacles.push_back({{5.4,3.6},(argc>1)?std::stod(argv[1]):1.0});
     obstacles.push_back({{12.3,-4.7},(argc>1)?std::stod(argv[1]):1.0});
 
     auto field = [&](point2d p) -> double {
         double obstacleField = 0;
-//        for (const auto& obstacle : obstacles) {
-//            double distanceToObstacle = length(p - obstacle.first);
-//            obstacleField += obstacle.second/ (distanceToObstacle*distanceToObstacle);
-//        }
         double distanceToObstacle = minDistance(obstacles[0].first, obstacles[1].first, p);
         obstacleField += obstacles[0].second/ (distanceToObstacle*distanceToObstacle);
         return length(destination - p) + obstacleField;
