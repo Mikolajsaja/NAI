@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <fstream>
+
+using namespace std;
+
+vector<vector<bool>> readGraph(string path) {
+    ifstream in(path);
+    int nodes;
+    in >> nodes;
+    vector<vector<bool>> connections;
+    for (int i = 0; i < nodes; i++) {
+        vector<bool> row;
+        for (int j = 0; j < nodes; j++) {
+            row.push_back(false);
+        }
+        connections.push_back(row);
+    }
+
+    int a, b;
+    while (in >> a >> b) {
+        connections[a][b] = true;
+        connections[b][a] = true;
+    }
+    return connections;
+}
+
+string printGraph(vector<vector<bool>> &connections) {
+    string out = "";
+    for (int i = 0; i < connections.size(); i++) {
+        for (int j = i + 1; j < connections.size(); j++) {
+            if (connections[i][j]) {
+                out = out + to_string(i) + "--" + to_string(j) + "\n";
+            }
+        }
+    }
+    return "graph g{\n" + out + "}\n";
+}
+
+
+int main(int argc, char **argv) {
+    string path = "graph.txt";
+    if (argc == 2)path = argv[1];
+    auto g = readGraph(path);
+    cout << printGraph(g);
+    return 0;
+}
